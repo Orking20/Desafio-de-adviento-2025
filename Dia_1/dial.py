@@ -7,77 +7,66 @@
 # La contraseña es la cantidad de veces que la aguja pasa por cero o termina apuntando al 0.
 
 # ================ FUNCIONES ARCHIVOS ================
-def leer_archivo():
+def leer_archivo(ruta: str = 'dial.txt') -> list[str]:
     """Lee el archivo con los códigos."""
-    with open('dial.txt', 'r') as archivo:
-        return archivo.read()
+    try:
+        with open(ruta, 'r', encoding='utf-8') as archivo:
+            return archivo.read().splitlines()
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Error: el archivo {ruta} no existe.")
+    except Exception as e:
+        raise Exception(f"Error inesperado al leer el archivo: {e}")
 
 # ================ FUNCIONES PRINCIPALES ================
-def main():
-    """Función que desenboca todo el programa."""
-    estado_inicial = 50 # Estado inicial de la aguja en el dial.
+def main() -> None:
+    """Función principal del programa."""
+    pos_actual = 50 # Estado inicial de la aguja en el dial.
     cont_ceros = 0
-    lista_codigos = obtener_codigos()
+    codigos: list[str] = leer_archivo()
 
-    for codigo in lista_codigos:
-        estado_inicial, contador = mover_aguja(estado_inicial, codigo)
+    for codigo in codigos:
+        pos_actual, contador = mover_aguja(pos_actual, codigo)
         cont_ceros += contador
 
     print(f"La contraseña es: {cont_ceros}")
 
-def obtener_codigos():
-    """Obtiene los códigos, los guarda en una lista y los devuelve."""
-    lista_codigos = []
-    aux = ""
-    codigos = leer_archivo()
-
-    for codigo in codigos:
-        if codigo != "\n":
-            aux += codigo
-        else:
-            lista_codigos.append(aux)
-            aux = ""
-
-    return lista_codigos
-
-def mover_aguja(estado_inicial, codigo):
+def mover_aguja(pos_actual: int, codigo: str) -> tuple[int, int]:
     """Mueve la aguja en la dirección indicada, y una cantidad de veces cómo corresponda.
     Devuelve el número que apunta la aguja al finalizar."""
     try:
         cant_movimientos = int(codigo[1:]) # Selecciono todo el código exceptuando el primer caracter.
 
         if codigo[0] == 'R': # Derecha
-            estado_final, contador = girar_R(estado_inicial, cant_movimientos)
+            estado_final, contador = girar_R(pos_actual, cant_movimientos)
         elif codigo[0] == 'L': # Izquierda
-            estado_final, contador = girar_L(estado_inicial, cant_movimientos)
+            estado_final, contador = girar_L(pos_actual, cant_movimientos)
+        else:
+            print(f"Error de dirección en código '{codigo}'")
 
         return estado_final, contador
+    except ValueError:
+        raise ValueError(f"El código {codigo[1:]} no se puede converitr a entero.")
     except Exception as e:
-        print(f"Error: {e}")
+        raise Exception(f"Error inesperado: {e}")
 
-def girar_R(estado_inicial, cant_movimientos):
-    pos_actual = estado_inicial
+def girar_R(pos_actual: int, cant_movimientos: int) -> tuple[int, int]:
+    """Cuenta todas las veces que la aguja pasa por el cero, girando el dial a la derecha."""
     contador = 0
 
-    for i in range(cant_movimientos):
+    for _ in range(cant_movimientos):
         pos_actual += 1
 
         if pos_actual == 100:
             pos_actual = 0
             contador += 1
 
-    if pos_actual == 0:
-        estado_final = 0
-    else:
-        estado_final = (estado_inicial + cant_movimientos) % 100
-    
-    return estado_final, contador
+    return pos_actual, contador
 
-def girar_L(estado_inicial, cant_movimientos):
-    pos_actual = estado_inicial
+def girar_L(pos_actual: int, cant_movimientos: int) -> tuple[int, int]:
+    """Cuenta todas las veces que la aguja pasa por el cero, girando el dial a la izquierda."""
     contador = 0
 
-    for i in range(cant_movimientos):
+    for _ in range(cant_movimientos):
         pos_actual -= 1
 
         if pos_actual == 0:
@@ -85,12 +74,7 @@ def girar_L(estado_inicial, cant_movimientos):
         if pos_actual == -1:
             pos_actual = 99
 
-    if pos_actual == 0:
-        estado_final = 0
-    else:
-        estado_final = (estado_inicial - cant_movimientos) % 100
-    
-    return estado_final, contador
+    return pos_actual, contador
 
 if __name__ == "__main__":
     main()
