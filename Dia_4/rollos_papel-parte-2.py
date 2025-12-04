@@ -36,7 +36,7 @@ def main() -> None:
 
     print(cont_rollos_accesibles)
 
-def armar_grilla(lineas: list[str]):
+def armar_grilla(lineas: list[str]) -> list[str]:
     """Se convierte cada línea en una lista de caracteres quitando el salto de línea"""
     for linea in lineas:
         linea_sin_salto = linea.rstrip()
@@ -44,7 +44,7 @@ def armar_grilla(lineas: list[str]):
         grilla.append(caracteres)
     return lineas
 
-def encontrar_rollos_accesibles(lineas: list[str]):
+def encontrar_rollos_accesibles(lineas: list[str]) -> tuple[int, list[tuple[int, int]]]:
     """Encuentra los rollos accesibles"""
     global cont_rollos_accesibles
     global seguir
@@ -81,9 +81,9 @@ def encontrar_rollos_accesibles(lineas: list[str]):
                 rollos_seleccionados.append((fila, col))
                 seguir = True
 
-    return cont_rollos_accesibles, rollos_seleccionados
+    return (cont_rollos_accesibles, rollos_seleccionados)
 
-def eliminar_rollos_accesibles(rollos_seleccionados):
+def eliminar_rollos_accesibles(rollos_seleccionados: list[tuple[int, int]]):
     """Elimina los rollos seleccionados de la grilla."""
     # Rollo tendría una lista parecida a [(0,0), (0,1), (2,5)] con coordenadas a eliminar
     for rollo in rollos_seleccionados:
