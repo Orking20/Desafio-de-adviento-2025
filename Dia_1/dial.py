@@ -6,27 +6,14 @@
 # En el archivo 1-dial.txt se encuentra una sucesion de movimientos de la aguja.
 # La contraseña es la cantidad de veces que la aguja pasa por cero o termina apuntando al 0.
 
-from pathlib import Path
-
-# ================ FUNCIONES ARCHIVOS ================
-def leer_archivo(ruta: str = 'dial.txt') -> list[str]:
-    """Lee el archivo con los códigos."""
-    ruta_dir = Path(__file__).parent
-    ruta_archivo = ruta_dir / ruta
-
-    try:
-        return ruta_archivo.read_text(encoding='utf-8').splitlines()
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Error: el archivo {ruta} no existe.")
-    except Exception as e:
-        raise Exception(f"Error inesperado al leer el archivo: {e}")
+from manejo_archivos import leer_archivo
 
 # ================ FUNCIONES PRINCIPALES ================
 def main() -> None:
     """Función principal del programa."""
     pos_actual = 50 # Estado inicial de la aguja en el dial.
     cont_ceros = 0
-    codigos: list[str] = leer_archivo()
+    codigos: list[str] = leer_archivo("dial.txt")
 
     for codigo in codigos:
         pos_actual, contador = mover_aguja(pos_actual, codigo)

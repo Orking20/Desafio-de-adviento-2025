@@ -7,28 +7,16 @@
 # 818181911112111 -> 888911112111
 # Una vez tengamos todos los números, hay que sumarlos y obtener el resultado final
 
-from pathlib import Path
-
-# ================ FUNCIONES ARCHIVOS ================
-def leer_archivo(ruta: str = 'bancos_baterias.txt') -> str:
-    """Lee el archivo con los códigos."""
-    ruta_dir = Path(__file__).parent
-    ruta_archivo = ruta_dir / ruta
-
-    try:
-        return ruta_archivo.read_text(encoding='utf-8').splitlines()
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Error: el archivo {ruta} no existe.")
-    except Exception as e:
-        raise Exception(f"Error inesperado al leer el archivo: {e}")
+from manejo_archivos import leer_archivo
+from prueba import funcion
 
 # ================ FUNCIONES PRINCIPALES ================
 def main() -> None:
     """Función principal del programa."""
-    datos = leer_archivo()
+    datos = leer_archivo("bancos_baterias.txt")
     #datos = ["987654321111111", "811111111111119", "234234234234278", "818181911112111"]
     resultado = 0
-
+    funcion()
     for linea in datos:
         resultado += num_mas_grande_posible(linea)
 

@@ -3,25 +3,12 @@
 # menos de otros cuatro rollos de papel, en todas las direcciones (N, S, E, O, NE, NO, SE, SO)
 # Finalmente, mostrar la cantidad de rollos de papel seleccionados.
 
-from pathlib import Path
-
-# ================ FUNCIONES ARCHIVOS ================
-def leer_archivo(ruta: str = 'rollos_papel.txt') -> str:
-    """Lee el archivo con los códigos."""
-    ruta_dir = Path(__file__).parent
-    ruta_archivo = ruta_dir / ruta
-
-    try:
-        return ruta_archivo.read_text(encoding='utf-8').splitlines()
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Error: el archivo {ruta} no existe.")
-    except Exception as e:
-        raise Exception(f"Error inesperado al leer el archivo: {e}")
+from manejo_archivos import leer_archivo
 
 # ================ FUNCIONES PRINCIPALES ================
 def main() -> None:
     """Función principal del programa."""
-    datos = leer_archivo()
+    datos = leer_archivo("rollos_papel.txt")
     print(contar_rollos_accesibles(datos))
 
 def contar_rollos_accesibles(lineas: list[str]):
