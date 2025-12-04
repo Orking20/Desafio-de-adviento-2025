@@ -8,7 +8,6 @@
 # Una vez tengamos todos los números, hay que sumarlos y obtener el resultado final
 
 from manejo_archivos import leer_archivo
-from prueba import funcion
 
 # ================ FUNCIONES PRINCIPALES ================
 def main() -> None:
@@ -16,7 +15,7 @@ def main() -> None:
     datos = leer_archivo("bancos_baterias.txt")
     #datos = ["987654321111111", "811111111111119", "234234234234278", "818181911112111"]
     resultado = 0
-    funcion()
+
     for linea in datos:
         resultado += num_mas_grande_posible(linea)
 
@@ -27,7 +26,6 @@ def num_mas_grande_posible(banco: str, tamano_etiqueta: int = 12) -> int:
     Encuentra el número más grande posible de dos dígitos,
     sin alterar el orden de los números.
     """
-    numero_final = None
     pila = []
     descartes = len(banco) - tamano_etiqueta
 
