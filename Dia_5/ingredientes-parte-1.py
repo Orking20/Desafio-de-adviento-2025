@@ -18,7 +18,7 @@ def main() -> None:
 
     print(resultado)
 
-def separar_datos(datos: list[str]) -> tuple[list[str], list[str]]:
+def separar_datos(datos: list[str]) -> tuple[set[str], list[str]]:
     """
     A partir de los datos indicados, separa los rangos
     de ID de los ID de ingredientes.
@@ -53,7 +53,7 @@ def conv_ingredientes(ingredientes: list[str]) -> list[int]:
 
     return ing_int
 
-def contar_ing_frescos(rangos: list[str], ingredientes: list[int]) -> int:
+def contar_ing_frescos(rangos: set[str], ingredientes: list[int]) -> int:
     """
     A partir de los rangos de ID y de los ingredientes,
     cuenta cuántos ingredientes frescos hay.
