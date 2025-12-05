@@ -33,7 +33,7 @@ def separar_datos(datos: list[str]) -> tuple[list[str], list[str]]:
             continue
 
         # Después del corte, pasan a agregarse a los ingredientes
-        if not corte and linea != "\n":
+        if not corte:
             rangos.append(linea)
         else:
             ingredientes.append(linea)
